@@ -7,6 +7,17 @@ class ServerChatPage extends StatefulWidget{
 }
 
 class _ChatDetailPageState extends State<ServerChatPage> {
+  final TextEditingController _controller = TextEditingController();
+
+  void _addItem()
+  {
+    if(_controller.text.isNotEmpty){
+      setState(() {
+        messages.add(ServerMessage(messageContent: _controller.text, user: "사용자 1", imageURL: ""));
+        _controller.clear();
+      });
+    }
+  }
   @override
   List<ServerMessage> messages = [
     ServerMessage(messageContent: "안녕하세요", user: "사용자 1", imageURL: "")
@@ -108,6 +119,7 @@ class _ChatDetailPageState extends State<ServerChatPage> {
                   SizedBox(width: 15,),
                   Expanded(
                     child: TextField(
+                      controller: _controller,
                       decoration: InputDecoration(
                         hintText: "Write message...",
                         hintStyle: TextStyle(color: Colors.black54),
@@ -117,7 +129,7 @@ class _ChatDetailPageState extends State<ServerChatPage> {
                   ),
                   SizedBox(width: 15,),
                   FloatingActionButton(
-                    onPressed: (){},
+                    onPressed: _addItem,
                     child: Icon(Icons.send,color: Colors.white,size: 18,),
                     backgroundColor: Colors.blue,
                     elevation: 0,

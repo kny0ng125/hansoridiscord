@@ -7,6 +7,17 @@ class ChatDetailPage extends StatefulWidget{
 }
 
 class _ChatDetailPageState extends State<ChatDetailPage> {
+  final TextEditingController _controller = TextEditingController();
+
+  void _addItem()
+  {
+    if(_controller.text.isNotEmpty){
+      setState(() {
+        messages.add(ChatMessage(messageContent: _controller.text, messageType: "sender"));
+        _controller.clear();
+      });
+    }
+  }
   @override
   List<ChatMessage> messages = [
     ChatMessage(messageContent: "Hello, Will", messageType: "receiver"),
@@ -104,6 +115,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                   SizedBox(width: 15,),
                   Expanded(
                     child: TextField(
+                      controller: _controller,
                       decoration: InputDecoration(
                         hintText: "Write message...",
                         hintStyle: TextStyle(color: Colors.black54),
@@ -113,7 +125,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                   ),
                   SizedBox(width: 15,),
                   FloatingActionButton(
-                    onPressed: (){},
+                    onPressed: _addItem,
                     child: Icon(Icons.send,color: Colors.white,size: 18,),
                     backgroundColor: Colors.blue,
                     elevation: 0,
